@@ -43,14 +43,16 @@ body {
     padding:0px;
     text-transform:uppercase;
     width:100%;
+    top:0px;
+    bottom:0px;
 }
 
 /* Portrait layout (default) */
 .app {
-    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    /*background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
     position:absolute;             /* position in the center of the screen */
     left:50%;
-    top:50%;
+    top:0%;
     height:50px;                   /* text area height */
     width:225px;                   /* text area width */
     text-align:center;
@@ -112,4 +114,72 @@ h1 {
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
+}
+
+/*Deadness Board*/
+#DeadnessContainer{
+    position: absolute;
+    left:-100%;
+    padding:2%;
+    /*width:100%;*/
+    width: 100vmin;
+    height: 100vmin;
+    background: white;
+}
+
+.BallPlayed{
+    width:50px;
+    height:50px;  
+    border: 1px solid black;
+} 
+
+.BallHit{
+    width:50px;
+    height:50px;
+    border: 1px solid black;
+}
+
+.BallStatus{
+    width: 100%;
+    height:100%;
+}
+
+.BallHit .BallStatus{
+    width: 60%;
+    height:60%;
+    border:none;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+
+#Blue{
+    background: blue;
+}
+
+#Red{
+    background: red;
+}
+
+#Black{
+    background: black;
+}
+
+#Yellow{
+    background: yellow;
+}
+
+/* Menu */
+h1{
+    margin-top:5%;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+}
+#menu{
+    margin-left:0px;
+    padding-left:0px;
+    font-size: 2em;
+    list-style-type: none;
+    text-align: center;
+    line-height: 2em;
 }
