@@ -44,7 +44,7 @@
             <li id="LinkDeadness">Deadness Board</li>
             <li id="LinkGameClock">Game Clock</li>
             <li id="LinkShotClock">Shot Clock</li>
-            <li id="LinkRules"><a href="http://www.croquetamerica.com/croquet/rules/american/USCA2006RuleBook.pdf">Rules</a></li>
+            <li id="LinkRules"><a href="assets/USCA2006RuleBook.pdf">Rules</a></li>
         </ul>
         <!--<div class="app">
             
@@ -114,11 +114,17 @@
             </table>
             <div id="GameClock">
                 <h1>GAME TIME</h1>
+                <div id="GameTime">75:00</div>
                 <ul id="GameMenu">
-                    <li id="start">Start</li>
-                    <li id="pause">Pause</li>
-                    <li id="reset">Reset</li>
-                </ul> 
+                    <li id="GameStart">Start</li>
+                    <li id="GamePause">Pause</li>
+                    <li id="GameSet">Set</li>
+                </ul>
+                <div id="SetGameTime">
+                    <input id="LengthInput" type="text" name="GameLength">
+                    <div class="Minutes">Minutes</div>
+                    <button id="SubmitGameLength">Set</button>
+                </div> 
             </div>
             <div id="ShotClock">
                <h1>SHOT TIME</h1>

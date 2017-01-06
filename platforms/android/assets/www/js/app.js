@@ -31,17 +31,73 @@ $(document).ready(function(){
 			children('.BallStatus').removeClass('dead half-dead');
 		});
 	});
+	//Shot Clock
+	var startTime = 0;
+	var timeleft = 0;
+	var pauseTime = 0;
+	var paused = false;
+	var makeup=0;
+	var curTime = 0;
+	var makeupTime = 0;
+	$('#ShotStart').on("click",function(){
+		startTime = new Date();
+		makeupTime = 0;
+		setInterval(function(){
+			if(!paused){
+				curTime = new Date();
+				timeleft = (startTime-curTime+makeupTime)/1000;
+				timeleft+=45;
+			}
+			
+			if(timeleft>0){
+				$('#ShotTime').text(":"+timeleft.toFixed(0));
+			}	
+		},100);
+	});
+
+	$("#ShotPause").on("click",function(){
+		paused = !paused;
+		if(paused){
+			pauseTime = new Date();
+			$('#ShotPause').text("UNPAUSE");
+		}else{
+			var unPauseTime = new Date();
+			makeupTime = unPauseTime-pauseTime+makeupTime;
+			$('#ShotPause').text("PAUSE");
+		}
+	});
+
+	
+	
 	//Menu
 	$("#LinkDeadness").on("click",function(){
-		$("#DeadnessContainer").animate({left: '0px'}, 1000);
+		SwapInOut($("#DeadnessContainer"));
 	});
 	$("#LinkGameClock").on("click",function(){
-		$("#DeadnessContainer").animate({left: '-100%'}, 1000);
+		SwapInOut($("#GameClock"));
 	});
 	$("#LinkShotClock").on("click",function(){
-		$("#DeadnessContainer").animate({left: '-100%'}, 1000);
+		SwapInOut($("#ShotClock"));
 	});
 	$("#LinkScore").on("click",function(){
-		$("#DeadnessContainer").animate({left: '-100%'}, 1000);
+		SwapInOut($("#Score"));
 	});
 });
+
+function SwapInOut(divIn){
+	divOut = $('.active');
+	if(!$(divIn).hasClass('active')){
+		if(divOut.length>0){
+			$(divOut).animate({left: '-100%'}, 500,function(){
+				$(divIn).animate({left: '0px'}, 500, function(){
+					$(divIn).addClass('active');
+					$(divOut).removeClass('active');
+				});
+			});
+		}else{
+			$(divIn).animate({left: '0px'}, 500, function(){
+					$(divIn).addClass('active');
+				});
+		}
+	}
+}

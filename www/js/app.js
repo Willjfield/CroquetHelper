@@ -31,38 +31,83 @@ $(document).ready(function(){
 			children('.BallStatus').removeClass('dead half-dead');
 		});
 	});
-	//Shot Clock
-	var startTime = 0;
-	var timeleft = 0;
-	var pauseTime = 0;
-	var paused = false;
-	var makeup=0;
-	var curTime = 0;
-	var makeupTime = 0;
-	$('#ShotStart').on("click",function(){
-		startTime = new Date();
-		makeupTime = 0;
+	//Game Clock
+	var GameLength = 4500000;
+	var startgameTime = 0;
+	var gameTimeleft = 0;
+	var pausegameTime = 0;
+	var gamePaused = false;
+	var gameMakeup=0;
+	var curgameTime = 0;
+	var gameMakeupTime = 0;
+	var gameMinutesLeft = '';
+	var gameSecondsLeft = '';
+	$('#GameStart').on("click",function(){
+		startgameTime = new Date();
+		gameMakeupTime = 0;
 		setInterval(function(){
-			if(!paused){
-				curTime = new Date();
-				timeleft = (startTime-curTime+makeupTime)/1000;
-				timeleft+=45;
+			if(!gamePaused){
+				curgameTime = new Date();
+				gameTimeleft = (startgameTime-curgameTime+gameMakeupTime);
+				gameTimeleft+=GameLength;
+				gameTimeleft/=1000;
+				gameMinutesLeft = Math.floor(gameTimeleft/60).toFixed(0);
+				gameSecondsLeft = "0"+Math.floor(gameTimeleft%60).toFixed(0);
+				gameSecondsLeft = gameSecondsLeft.substr(gameSecondsLeft.length - 2); // => "Tabs1"
+
+				//gameSecondsLeft == 60 ? gameSecondsLeft = 0 :{};
+
 			}
 			
-			if(timeleft>0){
-				$('#ShotTime').text(":"+timeleft.toFixed(0));
+			if(gameTimeleft>0){
+				$('#GameTime').text(gameMinutesLeft+":"+gameSecondsLeft);
+			}	
+		},100);
+	});
+
+	$("#GamePause").on("click",function(){
+		gamePaused = !gamePaused;
+		if(gamePaused){
+			pausegameTime = new Date();
+			$('#gamePause').text("UNPAUSE");
+		}else{
+			var unpausegameTime = new Date();
+			gameMakeupTime = unpausegameTime-pausegameTime+gameMakeupTime;
+			$('#gamePause').text("PAUSE");
+		}
+	});
+	//Shot Clock
+	var startShotTime = 0;
+	var shotTimeleft = 0;
+	var pauseShotTime = 0;
+	var shotPaused = false;
+	var shotMakeup=0;
+	var curShotTime = 0;
+	var shotMakeupTime = 0;
+	$('#ShotStart').on("click",function(){
+		startShotTime = new Date();
+		shotMakeupTime = 0;
+		setInterval(function(){
+			if(!shotPaused){
+				curShotTime = new Date();
+				shotTimeleft = (startShotTime-curShotTime+shotMakeupTime)/1000;
+				shotTimeleft+=45;
+			}
+			
+			if(shotTimeleft>0){
+				$('#ShotTime').text(":"+shotTimeleft.toFixed(0));
 			}	
 		},100);
 	});
 
 	$("#ShotPause").on("click",function(){
-		paused = !paused;
-		if(paused){
-			pauseTime = new Date();
+		shotPaused = !shotPaused;
+		if(shotPaused){
+			pauseShotTime = new Date();
 			$('#ShotPause').text("UNPAUSE");
 		}else{
-			var unPauseTime = new Date();
-			makeupTime = unPauseTime-pauseTime+makeupTime;
+			var unpauseShotTime = new Date();
+			shotMakeupTime = unpauseShotTime-pauseShotTime+shotMakeupTime;
 			$('#ShotPause').text("PAUSE");
 		}
 	});
