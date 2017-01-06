@@ -45,6 +45,7 @@ body {
     width:100%;
     top:0px;
     bottom:0px;
+    overflow: hidden;
 }
 
 /* Portrait layout (default) */
@@ -166,7 +167,7 @@ h1 {
 }
 
 #Yellow{
-    background: yellow;
+    background: #e8e85c;
 }
 
 /*Game Clock*/
@@ -182,8 +183,9 @@ h1 {
 
 #GameTime{
     width:100%;
-    font-size: 12em;
+    font-size: 10em;
     text-align: center;
+    overflow: hidden;
 }
 
 #GameMenu{
@@ -216,7 +218,10 @@ h1 {
 #SetGameTime{
     background: grey;
     padding-top: 10px;
-    padding-bottom: 500px;
+    padding-bottom: 31px;
+    position: absolute;
+    width: 100%;
+    bottom: -50%;
 }
 
 #SubmitGameLength{

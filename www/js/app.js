@@ -53,7 +53,7 @@ $(document).ready(function(){
 				gameTimeleft/=1000;
 				gameMinutesLeft = Math.floor(gameTimeleft/60).toFixed(0);
 				gameSecondsLeft = "0"+Math.floor(gameTimeleft%60).toFixed(0);
-				gameSecondsLeft = gameSecondsLeft.substr(gameSecondsLeft.length - 2); // => "Tabs1"
+				gameSecondsLeft = gameSecondsLeft.substr(gameSecondsLeft.length - 2);
 
 				//gameSecondsLeft == 60 ? gameSecondsLeft = 0 :{};
 
@@ -69,13 +69,46 @@ $(document).ready(function(){
 		gamePaused = !gamePaused;
 		if(gamePaused){
 			pausegameTime = new Date();
-			$('#gamePause').text("UNPAUSE");
+			$('#GamePause').text("UNPAUSE");
 		}else{
 			var unpausegameTime = new Date();
 			gameMakeupTime = unpausegameTime-pausegameTime+gameMakeupTime;
-			$('#gamePause').text("PAUSE");
+			$('#GamePause').text("PAUSE");
 		}
 	});
+
+	$("#GameSet").on("click",function(){
+		//if(!$("#SetGameTime").hasClass('active')){
+			$("#SetGameTime").animate({
+				bottom: 0},
+				500, function() {
+				
+
+				//$("#SetGameTime").addClass('active')
+			});
+		//}
+	});
+
+	$("#SubmitGameLength").on("click",function(){
+		GameLength = $("#LengthInput").val()*60*1000;
+		if(isNaN(GameLength)){
+			$('#GameTime').css("font-size", '4em');
+			$('#GameTime').text('Please enter a valid number');
+
+		}else{
+			$('#GameTime').css("font-size", '10em');
+			gameTimeleft=GameLength;
+			gameTimeleft/=1000;
+			gameMinutesLeft = Math.floor(gameTimeleft/60).toFixed(0);
+			gameSecondsLeft = "0"+Math.floor(gameTimeleft%60).toFixed(0);
+			gameSecondsLeft = gameSecondsLeft.substr(gameSecondsLeft.length - 2);
+			$('#GameTime').text(gameMinutesLeft+":"+gameSecondsLeft);
+			$("#SetGameTime").animate({
+					bottom: '-50%'},
+					500);
+		}
+	});
+
 	//Shot Clock
 	var startShotTime = 0;
 	var shotTimeleft = 0;
