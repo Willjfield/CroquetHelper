@@ -19,6 +19,7 @@
 var app = {
     // Application Constructor
     initialize: function() {
+
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
     },
 
@@ -28,14 +29,15 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+        //console.log("hi");
         // Is this plugin supported?
-    AndroidFullScreen.isSupported(function(){
-        // Is immersive mode supported? 
-            AndroidFullScreen.isImmersiveModeSupported(function(){
-                // Hide system UI until user interacts
-                AndroidFullScreen.immersiveMode();
-            });
-    });   
+        AndroidFullScreen.isSupported(function(){
+            // Is immersive mode supported? 
+                AndroidFullScreen.isImmersiveModeSupported(function(){
+                    // Hide system UI until user interacts
+                    AndroidFullScreen.immersiveMode();
+                });
+        });   
     },
 
     // Update DOM on a Received Event

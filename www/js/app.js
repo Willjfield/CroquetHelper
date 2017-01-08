@@ -1,4 +1,8 @@
+
 $(document).ready(function(){
+
+	//console.log(Media);
+	//var beep = new Media('cdvfile://localhost/img/beep.wav');
 	//Deadness Board
 	var marginLeftPx = $(".BallHit .BallStatus").css("margin-left");
 	$(".BallHit").on("click",function(){
@@ -15,6 +19,7 @@ $(document).ready(function(){
 			$(ballMarker).removeClass('half-dead');
 			$(ballMarker).animate({width: '60%', height: '60%', 'border-radius':'50%', 'margin-left': marginLeftPx}, 500);
 		}
+	});
 
 		$(".BallPlayed").on("click",function(){
 			$(this).parent().
@@ -30,7 +35,7 @@ $(document).ready(function(){
 			children('.BallHit').
 			children('.BallStatus').removeClass('dead half-dead');
 		});
-	});
+	
 	//Game Clock
 	var GameLength = 4500000;
 	var startgameTime = 0;
@@ -45,6 +50,9 @@ $(document).ready(function(){
 	$('#GameStart').on("click",function(){
 		startgameTime = new Date();
 		gameMakeupTime = 0;
+		var playedBeep = false;
+		gamePaused = false;
+		$('#GamePause').text("PAUSE");
 		setInterval(function(){
 			if(!gamePaused){
 				curgameTime = new Date();
@@ -60,7 +68,15 @@ $(document).ready(function(){
 			}
 			
 			if(gameTimeleft>0){
+				$('#GameTime').css("color","white");
 				$('#GameTime').text(gameMinutesLeft+":"+gameSecondsLeft);
+			}else{
+				//beep.play();
+				if(!playedBeep){
+					playAudio('/android_asset/www/img/beep.wav');
+					$('#GameTime').css("color","red");
+					playedBeep = true;
+				}
 			}	
 		},100);
 	});
@@ -79,17 +95,23 @@ $(document).ready(function(){
 
 	$("#GameSet").on("click",function(){
 		//if(!$("#SetGameTime").hasClass('active')){
+			$('#GameTime').css("color","white");
 			$("#SetGameTime").animate({
 				bottom: 0},
-				500, function() {
-				
-
-				//$("#SetGameTime").addClass('active')
-			});
+				500);
 		//}
 	});
 
 	$("#SubmitGameLength").on("click",function(){
+		startgameTime = 0;
+		gameTimeleft = 0;
+		pausegameTime = 0;
+		gamePaused = false;
+		gameMakeup=0;
+		curgameTime = 0;
+		gameMakeupTime = 0;
+		gameMinutesLeft = '';
+		gameSecondsLeft = '';
 		GameLength = $("#LengthInput").val()*60*1000;
 		if(isNaN(GameLength)){
 			$('#GameTime').css("font-size", '4em');
@@ -107,6 +129,11 @@ $(document).ready(function(){
 					bottom: '-50%'},
 					500);
 		}
+		AndroidFullScreen.isSupported(function(){
+                AndroidFullScreen.isImmersiveModeSupported(function(){
+                    AndroidFullScreen.immersiveMode();
+                });
+        }); 
 	});
 
 	//Shot Clock
@@ -119,7 +146,13 @@ $(document).ready(function(){
 	var shotMakeupTime = 0;
 	$('#ShotStart').on("click",function(){
 		startShotTime = new Date();
+		curShotTime = new Date();
 		shotMakeupTime = 0;
+		shotPaused = false;
+		var playedBeep = false;
+		$('#ShotPause').text("PAUSE");
+		$('#ShotTime').css("color","white");
+
 		setInterval(function(){
 			if(!shotPaused){
 				curShotTime = new Date();
@@ -128,7 +161,17 @@ $(document).ready(function(){
 			}
 			
 			if(shotTimeleft>0){
-				$('#ShotTime').text(":"+shotTimeleft.toFixed(0));
+				shotTimeleft = (startShotTime-curShotTime+shotMakeupTime)/1000;
+				shotTimeleft+=45;
+				shotTimeleft = "0"+shotTimeleft.toFixed(0);
+				shotTimeleft = shotTimeleft.substr(shotTimeleft.length - 2);
+				$('#ShotTime').text(":"+shotTimeleft);
+			}else{
+				if(!playedBeep){
+					playAudio('/android_asset/www/img/beep.wav');
+					$('#ShotTime').css("color","red");
+					playedBeep = true;
+				}
 			}	
 		},100);
 	});
@@ -161,6 +204,24 @@ $(document).ready(function(){
 		SwapInOut($("#Score"));
 	});
 });
+
+function playAudio(url) {
+    // Play the audio file at url
+    var my_media = new Media(url,
+        // success callback
+        function () { console.log("playAudio():Audio Success"); },
+        // error callback
+        function (err) { console.log("playAudio():Audio Error: " + err); }
+    );
+
+    // Play audio
+    my_media.play();
+
+    // Pause after 10 seconds
+    setTimeout(function () {
+        my_media.pause();
+    }, 10000);
+}
 
 function SwapInOut(divIn){
 	divOut = $('.active');

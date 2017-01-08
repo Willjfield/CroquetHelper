@@ -7,12 +7,20 @@
     <feature name="AndroidFullScreen">
         <param name="android-package" value="com.mesmotronic.plugins.FullScreenPlugin" />
     </feature>
-    <name>CroquetHelper</name>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <name>Croquet Helper</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A simple app to help keep track of USCA regulation croquet games.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="willjfield@gmail.com" href="willjfield.com">
+        Will J. Field
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -24,4 +32,6 @@
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
 </widget>
